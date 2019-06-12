@@ -1,0 +1,175 @@
+<div class="container">
+        <div class="ordem-compra">
+
+  <!-- se var de controle idPedidoCompra for underfined é 
+  porque nao gerou o pedido entra no conteudo desta div  
+  e nao template de compra sucesso -->
+
+  <div class="ordem-compra" *ngIf ="idPedidoCompra === undefined ">
+          
+            <!-- explicação 2.1 novalidadte  / ver explicação  2.4  ngSubmit--> 
+            <form novalidate #formulario= "ngForm" (ngSubmit)= "confirmarCompra(formulario)">
+          
+            <h5>Sua Compra</h5>
+            <hr />
+      
+            <div class="form-row" style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
+              <div class="form-group col-sm-1">
+                <img src="/assets/ofertas/1/img1.jpg" class="img-fluid">
+              </div>
+              <div class="form-group col-sm-6">
+                Super Burger
+                <br />
+                Rodízio de Mini-hambúrger com opção de entrada.
+              </div>
+      
+              <div>
+                <div class="row">
+                  <div class="col">
+                    <button type="button" class="btn btn-link">-</button>
+                    1
+                    <button type="button" class="btn btn-link">+</button>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="form-group col-sm-3 d-flex justify-content-end">
+                29.90
+              </div>
+            </div>
+            
+            <div class="form-row" style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
+              <div class="form-group col-sm-1">
+                <img src="/assets/ofertas/4/img1.jpg" class="img-fluid">
+              </div>
+              <div class="form-group col-sm-6">
+                Estância das águas
+                <br />
+                Diversão garantida com piscinas, trilhas e muito mais.
+              </div>
+      
+              <div>
+                <div class="row">
+                  <div class="col">
+                    <button type="button" class="btn btn-link">-</button>
+                    1
+                    <button type="button" class="btn btn-link">+</button>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="form-group col-sm-3 d-flex justify-content-end">
+                31.90
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group col d-flex justify-content-end">
+                <h4>Total do pedido: 61.80</h4>
+              </div>
+            </div>
+            <br />
+      
+           <!-- 2.3 p/ver e ter acesso aos atrib que ngForm controla com base no template criando  -->
+             <!-- <pre>{{ formulario | json }} </pre> -->
+             
+             <!-- 2.3.1 acessar o value dos atrib q armazena os valores contigo nos 
+                 campos  envolvido pela tg form -->
+                <pre>{{ formulario.value | json }} </pre>
+
+            <!-- 2.32 - associar o ngModel a uma var de referencia  nome com o campo desejado  ver linha 90 e 91
+                 name é um atrib do html num post de form o name é q representa o valor que deve ser 
+                 recebido do lado servidor -->
+
+             <h5>Dados de entrega</h5>
+            <hr />
+      
+            <div class="form-row">
+      
+              <div class="form-group col-md-6">
+                <input type="text" 
+                           class="form-control is-invalid" 
+                           placeholder="Endereço" 
+                           autocomplete="off" 
+                           minlength="5" 
+                           maxlength="100" 
+                           required
+                           name="endereço"
+                           ngModel
+                           #inputEndereco="ngModel"
+                           >
+                  <!-- ver explicação 3.3 -->
+                <small *ngIf ="inputEndereco.valid && inputEndereco.touched" class="form-text text-success">ok</small>
+                <small *ngIf ="! inputEndereco.valid && inputEndereco.touched" class="form-text text-danger">Endereço invalido</small>
+              </div>
+      
+              <div class="form-group col-md-2">
+                <input type="text" 
+                            class="form-control" 
+                            placeholder="Número" 
+                            autocomplete="off" 
+                            minlength="1" 
+                            maxlength="10" 
+                            required
+                            name="numero"
+                            ngModel
+                            #inputNumero= "ngModel"
+                            >
+                <br />
+                <small *ngIf ="inputNumero.valid && inputNumero.touched" class="form-text text-success">ok</small>
+                <small *ngIf ="! inputNumero.valid && inputNumero.touched" class="form-text text-danger">Numero invalido</small>                
+              </div>
+      
+              <div class="form-group col-md-4">
+                <input type="text" 
+                           class="form-control" 
+                           placeholder="Complemento" 
+                           autocomplete="off"                           
+                           name="complemento"
+                           ngModel
+                           >
+              </div>
+      
+            </div>
+            <br />
+      
+            <h5>Dados de pagamento</h5>
+            <hr />
+      
+            <div class="form-row">
+                
+              <div class="form-group col-md-3">
+                <select 
+                  class="form-control "
+                  name="formaPagamento"
+                  required
+                  ngModel
+                  #selectFormaPgt="ngModel"                  
+                  >
+                  <option>Selecione uma opção</option>
+                  <option>Dinheiro</option>
+                  <option>Débito</option>
+                </select>
+                <small *ngIf ="selectFormaPgt && selectFormaPg.touched" class="form-text text-success">ok</small>
+                <small *ngIf ="! selectFormaPgt && selectFormaPg.touched" class="form-text text-danger">Selecione uma forma de pagamento</small>
+                
+              </div>
+            </div>
+      
+            <hr />
+            <button  
+                  type="submit" 
+                  class="btn btn-primary btn-lg"                   
+                  >Cofirmar compra</button>
+          </form>
+        </div>
+    <!-- se idPedidoCompra !== de undefined é pq tem algum preenchimento 
+    de confirmacao de compra-->
+  <div class="ordem-compra" *ngIf ="idPedidoCompra !=== undefined "></div>
+    
+  <!-- property binding do id q sera encaminhado para ordem compra sucesso 
+  e na classe ordem compra sucesso decorar um atrib com @input para receber 
+  param  externo do comp parent Pai ordem compra p ordem compra sucesso -->
+    <app-ordem-compra-sucesso [idPedidoCompra] = idPedidoCompra></app-ordem-compra-sucesso>
+</div>
+      </div>
