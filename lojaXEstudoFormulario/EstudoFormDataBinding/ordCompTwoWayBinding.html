@@ -1,0 +1,200 @@
+<!-- html de estudo p ser feito com ordCompTwoWayBinding.ts-->
+
+<div class="container"> 
+  
+  <!-- se var de controle idPedidoCompra for underfined é 
+  porque nao gerou o pedido entra no conteudo desta div  
+  e nao template de compra sucesso -->
+
+  <div class="ordem-compra" *ngIf ="idPedidoCompra === undefined ">
+
+    <!-- atrib novalidate - o navegador nao se responsabiliza pela validação do form permitindo 
+      levar o controle da validacao para dentro do codigo tendo a contra partida de nos fornecer
+      um visual unico independente de brouse -->
+      
+      <form novalidate>
+        
+    <!-- fazer o data binding do form p com a classe comp ordem-compra -->
+    
+    <h5>Sua Compra</h5>
+      <hr />
+
+      <div class="form-row" style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
+        <div class="form-group col-sm-1">
+          <img src="/assets/ofertas/1/img1.jpg" class="img-fluid">
+        </div>
+        <div class="form-group col-sm-6">
+          Super Burger
+          <br />
+          Rodízio de Mini-hambúrger com opção de entrada.
+        </div>
+
+        <div>
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-link">-</button>
+              1
+              <button type="button" class="btn btn-link">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-3 d-flex justify-content-end">
+          29.90
+        </div>
+      </div>
+      
+      <div class="form-row" style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
+        <div class="form-group col-sm-1">
+          <img src="/assets/ofertas/4/img1.jpg" class="img-fluid">
+        </div>
+        <div class="form-group col-sm-6">
+          Estância das águas
+          <br />
+          Diversão garantida com piscinas, trilhas e muito mais.
+        </div>
+
+        <div>
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-link">-</button>
+              1
+              <button type="button" class="btn btn-link">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-3 d-flex justify-content-end">
+          31.90
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group col d-flex justify-content-end">
+          <h4>Total do pedido: 61.80</h4>
+        </div>
+      </div>
+      <br />
+
+
+      <h5>Dados de entrega</h5>
+      <hr />
+
+      <div class="form-row">
+        <!-- fazer um property binding do value para o nome dos atrib/var  -->
+        <!-- implementar os metodos deacordo com os event binding -->
+        <div class="form-group col-md-6">
+          <input type="text" 
+          class="form-control {{ enderecoEstadoPrmitivo ? ' ' : ( enderecoValido  ?  'is-valid : 'is-invalid ') }} "
+          placeholder="Endereço" 
+          autocomplete="off" 
+          minlength="5" 
+          required
+          [value]="endereco"
+          #inputEndereco
+          (input)="atualizaEndereco(inputEndereco.value)"          
+          >
+
+          <div *ngIf="enderecoEstadoPrmitivo == false">
+              <div *ngIf="enderecoValido; else  msgEnderecoInvalido">  
+                    <small class="form-text text-success">Ok</small>
+              </div>
+              <ng-template #msgEnderecoInvalido>
+                    <small class="form-text text-danger">Endereço inválido</small>
+              </ng-template>
+          </div>
+       </div>
+
+        <div class="form-group col-md-2">
+          <input 
+              type="text"
+               class="form-control {{ numeroEstadoPrmitivo ? ' ' : ( numeroValido  ?  'is-valid : 'is-invalid ') }}"
+               placeholder="Número"
+               autocomplete="off" 
+               minlength="1"
+               required
+               [value]="numero"  
+               #inputNumero
+               (input)="atualizaNumero(inputNumero.value)">
+              <div *ngIf="numeroEstadoPrmitivo == false">
+                  <div *ngIf="numeroValido; else  msgNumeroInvalido">  
+                        <small class="form-text muted">Ok</small>
+                </div>
+                <ng-template #msgNumeroInvalido>
+                        <small class="form-text muted">Numero inválido</small>
+                </ng-template>
+            </div>      
+      </div>
+
+        <div class="form-group col-md-4">
+          <input 
+              type="text" 
+              class="form-control {{ complementoEstadoPrmitivo ? ' ' : ( complementoValido  ?  'is-valid' : ' ') }}"
+              placeholder="Complemento" 
+              autocomplete="off"
+              [value]="complemento"
+              #inputComplemento
+              (input)="atualizaComplemento(inputComplemento.value)" >
+              <div *ngIf="complementoEstadoPrmitivo == false">
+                <div *ngIf="complementoValido">  
+                      <small class="form-text-success">Ok</small>
+              </div>              
+          </div>      
+
+
+        </div>
+
+      </div>
+      <br />
+
+      <h5>Dados de pagamento</h5>
+      <hr />
+
+      <div class="form-row">
+          
+        <div class="form-group col-md-3">
+          <select class="form-control {{  formaPgtEstadoPrmitivo ? ' ' : ( formaPgtValido  ?  'is-valid : 'is-invalid') }}"
+          #selectorformaPgt
+          (change)="atualizaformaPgt(selectorformaPgt.value)"
+          >
+            <option value="">Selecione uma opção</option>
+            <option value="dinheiro" selected="{{ formaPgt == 'dinheiro' ? 'selected' : ' ' }}">Dinheiro</option>
+            <option value="debito" selected="{{ formaPgt == 'dinheiro' ? 'selected' : ' ' }}">Débito</option>
+          </select>
+          
+          <div *ngIf="formaPgtEstadoPrmitivo == false">
+            <div *ngIf="formaPgtValido; else  msgFormaPgtInvalido">  
+                  <small class="form-text text-success">Ok</small>
+            </div>
+            <ng-template #msgFormaPgtInvalido>
+                  <small class="form-text text-danger">Pgto  inválido</small>
+            </ng-template>
+        </div>
+          
+        </div>
+      </div>
+
+      <hr />
+     
+      <!--  1-  validacao do btn confirmar - um disable com um atrib da classe p definir 
+        o valor do btn -->
+      <!--   2- event binding para confirmar o pedido de compra - 
+        depois de ter o serv comp ok na classe ordem-compra -->
+      <button type="button" 
+                    class="btn btn-primary btn-lg" 
+                    [disable] = "formEstado"
+                    (click)="confirmarCompra( )"
+                    >
+                    Confirmar compra</button>
+    </form>
+  </div>
+  
+  <!-- se idPedidoCompra !== de undefined é pq tem algum preenchimento 
+    de confirmacao de compra-->
+  <div class="ordem-compra" *ngIf ="idPedidoCompra !=== undefined "></div>
+    
+    <!-- property binding do id q sera encaminhado para ordem compra sucesso 
+    e na classe ordem compra sucesso decorar um atrib com @input para receber 
+    param  externo do comp parent Pai ordem compra p ordem compra sucesso -->
+      <app-ordem-compra-sucesso [idPedidoCompra] = idPedidoCompra></app-ordem-compra-sucesso>
+</div>
